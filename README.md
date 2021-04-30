@@ -30,11 +30,44 @@ Open to new animation, mascot/characters, helpful links to resources … be crea
 
 ### Directory Structure
 
+Copy the `submissions/example` directory:
+
+```terminal
+example
+├── error
+│   ├── README.md
+│   ├── components
+│   └── screenshots
+├── not_found
+│   ├── README.md
+│   ├── components
+│   └── screenshots
+└── splash
+    ├── README.md
+    ├── components
+    └── screenshots
+```
+
+and add a PR with your submission in `submissions/your-github-username`:
+
+```terminal
 - <github-username>
-|- error
-|- screenshots
-|- not_found
-|- splash
+├── error
+│   ├── README.md
+│   ├── components
+│   └── screenshots
+├── not_found
+│   ├── README.md
+│   ├── components
+│   └── screenshots
+└── splash
+    ├── README.md
+    ├── components
+    └── screenshots
+```
+
+In each `README.md` take some time to tell us about your design adn what makes it awesome.
+
 ## Splash Page
 
 ### Community Writeup and Comments
