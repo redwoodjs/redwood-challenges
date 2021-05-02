@@ -1,5 +1,5 @@
 # Submission Directory Structure
 
-Your page redesign submission goes here.
+Redesign submissions should be placed here.
 
-It should be some identifier, typically you GitHub username.
+Copy the `example` folder and rename it to an identifier such as a GitHub username.

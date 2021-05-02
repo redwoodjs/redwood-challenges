@@ -26,7 +26,7 @@ Open to new animation, mascot/characters, helpful links to resources … be crea
 * Use the `README.md` to tell us more about your redesign concept and thoughts.
 * Submit a PR with a short message and introduction
 * We will review, comment and merge in after a basic check (just in the event there are inappropriate submissions)
-* Once merged the RedwoodJS community can review and decide which pages get to be part of teh framework for v1.0! (Date TBD)
+* Once merged the RedwoodJS community can review and decide which pages get to be part of the framework for v1.0! (Date TBD)
 
 ### Directory Structure
 
