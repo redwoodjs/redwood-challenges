@@ -99,7 +99,7 @@ export const parse = ({ payload }) => {
     title: pullRequest.title,
     description: pullRequest.body,
     htmlUrl: pullRequest.html_url,
-    filesUrl: `${pullRequest.html_url}/files`,
+    filesUrl: `${pullRequest._links.self.href}/files`,
     labels: parseLabels({ pullRequest }),
     merged: pullRequest.merged,
     approvedAt: approvedAt({ pullRequest }),

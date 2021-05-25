@@ -5,6 +5,7 @@
   "dependencies": {
     "@redwoodjs/api": "^0.32.2",
     "@redwoodjs/api-server": "^0.32.2",
-    "date-fns": "^2.21.3"
+    "date-fns": "^2.21.3",
+    "got": "^11.8.2"
   }
 }

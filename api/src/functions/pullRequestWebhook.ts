@@ -1,4 +1,6 @@
 import type { APIGatewayEvent, Context } from 'aws-lambda'
+import got from 'got'
+
 import { InvalidPayloadError } from 'src/lib/errors'
 import { logger } from 'src/lib/logger'
 import {
@@ -32,7 +34,7 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
 
   webhookLogger.trace('Invoked pullRequestWebhook function')
 
-  webhookLogger.debug({ webhookEvent: event }, 'Webhook event')
+  // webhookLogger.debug({ webhookEvent: event }, 'Webhook event')
 
   try {
     const options = {
@@ -77,6 +79,21 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
       )
     }
 
+    const response = await got(pullRequest.filesUrl)
+    const pullRequestFiles = JSON.parse(response.body)
+    webhookLogger.debug(pullRequestFiles, 'Fetched pullRequestFiles')
+
+    const fileUrls =
+      pullRequestFiles
+        ?.map((info) =>
+          info.filename.endsWith('.html') ? info.raw_url : undefined
+        )
+        .filter((filename) => filename !== undefined) || []
+
+    const fileUrl = fileUrls[0]
+
+    webhookLogger.debug({ fileUrls: fileUrls }, 'List of html fileUrls in PR')
+
     // Safely use the validated webhook payload
     const entry = await createEntry({
       input: {
@@ -88,6 +105,9 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
         pullRequestFilesUrl: pullRequest.filesUrl,
         challenge: { connect: { slug: pullRequest.challenge } },
         content: pullRequest.content,
+        pullRequestFiles,
+        fileUrls,
+        fileUrl,
         user: pullRequest.user,
         username: pullRequest.username,
       },

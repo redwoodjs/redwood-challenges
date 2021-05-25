@@ -88,7 +88,7 @@ describe('webhookHelper', () => {
 
       expect(parsed).toHaveProperty(
         'filesUrl',
-        'https://github.com/Codertocat/Hello-World/pull/2/files'
+        'https://api.github.com/repos/Codertocat/Hello-World/pulls/2/files'
       )
     })
 

@@ -35,6 +35,9 @@ model Entry {
   username            String
   user                Json
   content             Json
+  pullRequestFiles    Json?
+  fileUrls            String[]
+  fileUrl             String?
   votes               Vote[]
 }
 
