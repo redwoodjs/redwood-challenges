@@ -1,0 +1,47 @@
+datasource DS {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+model Challenge {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  beginsAt    DateTime?
+  endsAt      DateTime?
+  name        String
+  description String
+  slug        String    @unique
+  entries     Entry[]
+}
+
+model Entry {
+  id                  String    @id @default(cuid())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  approvedAt          DateTime
+  challenge           Challenge @relation(fields: [challengeId], references: [id])
+  challengeId         String
+  sha                 String
+  title               String
+  description         String
+  pullRequestFilesUrl String
+  pullRequestHtmlUrl  String
+  username            String
+  user                Json
+  content             Json
+  votes               Vote[]
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  entry     Entry    @relation(fields: [entryId], references: [id])
+  entryId   String
+}
