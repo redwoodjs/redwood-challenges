@@ -5,6 +5,7 @@ export const standard = defineScenario({
     one: {
       updatedAt: parseISO('2021-05-18T15:52:03Z'),
       approvedAt: parseISO('2021-05-18T15:52:11Z'),
+      uid: 'akdfblrbqldlqwudbyubqeb',
       sha: '21a0d715769420f0f2011e419e6d76c400a773f2',
       title: 'Entry title',
       description: 'Entry description',
@@ -26,6 +27,7 @@ export const standard = defineScenario({
     two: {
       updatedAt: parseISO('2021-05-18T15:52:03Z'),
       approvedAt: parseISO('2021-05-18T15:52:11Z'),
+      uid: '23nwnfiusndfi23urlwf',
       sha: '11b0d715769420a0f2011b413e6d76c412a873c9',
       title: 'Entry title',
       description: 'Entry description',
@@ -38,9 +40,9 @@ export const standard = defineScenario({
       challenge: {
         create: {
           updatedAt: parseISO('2021-05-18T15:52:03Z'),
-          name: 'String',
-          description: 'String',
-          slug: 'String1217992',
+          name: 'Redwood Page Challenge',
+          description: 'Design new redwoodJS pages',
+          slug: 'redwood-page',
         },
       },
     },

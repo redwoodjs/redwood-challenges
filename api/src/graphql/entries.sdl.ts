@@ -3,9 +3,21 @@ export const schema = gql`
     id: String!
     createdAt: DateTime!
     updatedAt: DateTime!
+    approvedAt: DateTime!
     challenge: Challenge!
     challengeId: String!
+    uid: String!
+    sha: String!
+    title: String!
+    description: String!
+    pullRequestFilesUrl: String!
+    pullRequestHtmlUrl: String!
+    username: String!
+    user: JSON!
     content: JSON!
+    pullRequestFiles: JSON
+    fileUrls: [String]!
+    fileUrl: String
     votes: [Vote]!
   }
 
@@ -15,13 +27,37 @@ export const schema = gql`
   }
 
   input CreateEntryInput {
+    approvedAt: DateTime!
     challengeId: String!
+    uid: String!
+    sha: String!
+    title: String!
+    description: String!
+    pullRequestFilesUrl: String!
+    pullRequestHtmlUrl: String!
+    username: String!
+    user: JSON!
     content: JSON!
+    pullRequestFiles: JSON
+    fileUrls: [String]!
+    fileUrl: String
   }
 
   input UpdateEntryInput {
+    approvedAt: DateTime
     challengeId: String
+    uid: String
+    sha: String
+    title: String
+    description: String
+    pullRequestFilesUrl: String
+    pullRequestHtmlUrl: String
+    username: String
+    user: JSON
     content: JSON
+    pullRequestFiles: JSON
+    fileUrls: [String]!
+    fileUrl: String
   }
 
   type Mutation {

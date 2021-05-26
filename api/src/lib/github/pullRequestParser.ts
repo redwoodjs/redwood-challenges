@@ -105,6 +105,7 @@ export const parse = ({ payload }) => {
     approvedAt: approvedAt({ pullRequest }),
     isValid: isValid({ payload }),
     challenge: parseChallenge({ pullRequest }),
+    uid: pullRequest.node_id,
     sha: pullRequest.head?.sha,
     user: pullRequest.user,
     username: pullRequest.user?.login,

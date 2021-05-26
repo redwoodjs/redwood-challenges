@@ -27,6 +27,7 @@ model Entry {
   approvedAt          DateTime
   challenge           Challenge @relation(fields: [challengeId], references: [id])
   challengeId         String
+  uid                 String    @unique
   sha                 String
   title               String
   description         String

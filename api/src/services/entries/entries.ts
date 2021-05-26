@@ -40,6 +40,14 @@ export const updateEntry = ({ id, input }: UpdateEntryArgs) => {
   })
 }
 
+export const upsertEntry = ({ input }: CreateEntryArgs) => {
+  return db.entry.upsert({
+    where: { uid: input.uid },
+    update: { ...input },
+    create: { ...input },
+  })
+}
+
 export const deleteEntry = ({ id }: Prisma.EntryWhereUniqueInput) => {
   return db.entry.delete({
     where: { id },

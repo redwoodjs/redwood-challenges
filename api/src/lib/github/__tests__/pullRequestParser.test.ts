@@ -108,6 +108,13 @@ describe('webhookHelper', () => {
       expect(parsed).toHaveProperty('username', 'Codertocat')
     })
 
+    it('sets the PR uid from node_id', async () => {
+      const payload = validPullRequest
+      const parsed = parse({ payload })
+
+      expect(parsed).toHaveProperty('uid', 'MDExOlB1bGxSZXF1ZXN0Mjc5MTQ3NDM3')
+    })
+
     it('sets the PR sha', async () => {
       const payload = validPullRequest
       const parsed = parse({ payload })

@@ -20,6 +20,7 @@ describe('votes', () => {
       input: {
         updatedAt: parseISO('2021-05-18T15:52:03Z'),
         approvedAt: parseISO('2021-05-18T15:52:11Z'),
+        uid: 'CADxOlB1bGxBAAF1ZXN1NjUyNDQwNjZz',
         sha: '21a0d715769420f0f2011e419e6d76c400a773f2',
         title: 'Entry title',
         description: 'Entry description',

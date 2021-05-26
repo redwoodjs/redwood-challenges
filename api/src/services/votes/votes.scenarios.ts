@@ -10,6 +10,7 @@ export const standard = defineScenario({
           approvedAt: parseISO('2021-05-18T15:52:11Z'),
           title: 'Entry title',
           description: 'Entry description',
+          uid: 'NAEc1lB1bGxSZXF1ZYN0NjUyNDQwNjZz',
           sha: '3510d715769410f0f2011e419e6d76c400a773f9',
           pullRequestHtmlUrl:
             'https://github.com/Codertocat/Hello-World/pull/2',
@@ -37,6 +38,7 @@ export const standard = defineScenario({
           approvedAt: parseISO('2021-05-18T15:52:11Z'),
           title: 'Entry title',
           description: 'Entry description',
+          uid: 'MDExOlB1bGxSZXF1ZXN0NjUyNDQwNjYy',
           sha: '21a0d715769420f0f2011e419e6d76c400a773f2',
           pullRequestHtmlUrl:
             'https://github.com/Codertocat/Hello-World/pull/3',

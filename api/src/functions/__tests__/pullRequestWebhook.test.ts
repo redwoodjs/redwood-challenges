@@ -50,7 +50,7 @@ describe('pullRequestWebhook', () => {
             },
           },
         }),
-        statusCode: 200,
+        statusCode: 201,
       })
     })
 
