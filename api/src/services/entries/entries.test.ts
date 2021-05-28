@@ -43,12 +43,12 @@ describe('entries', () => {
             slug: 'scenario.entry.two.challengeId',
           },
         },
-        content: { foo: 'bar' },
+        raw: { foo: 'bar' },
       },
     })
 
     expect(result.updatedAt).toEqual(parseISO('2021-05-18T15:52:03Z'))
-    expect(result.content).toEqual({ foo: 'bar' })
+    expect(result.raw).toEqual({ foo: 'bar' })
   })
 
   scenario('updates a entry', async (scenario) => {
@@ -79,7 +79,7 @@ describe('entries', () => {
           slug: 'redwood-page',
         },
       },
-      content: { foo: 'bar' },
+      raw: { foo: 'bar' },
     }
 
     const entry = await createEntry({

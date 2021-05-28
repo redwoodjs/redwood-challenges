@@ -109,6 +109,6 @@ export const parse = ({ payload }) => {
     sha: pullRequest.head?.sha,
     user: pullRequest.user,
     username: pullRequest.user?.login,
-    content: pullRequest,
+    raw: pullRequest,
   }
 }

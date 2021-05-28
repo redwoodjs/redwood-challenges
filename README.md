@@ -80,7 +80,35 @@ We use Yarn as our package manager. To get the dependencies installed, just do t
 
 ```terminal
 yarn install
+yarn rw prisma migrate dev
+yarn rw prisma db seed
 ```
+
+#### Supabase Local Dev Setup
+
+* install [supabase cli](https://github.com/supabase/cli)
+
+```terminal
+npm install supabase -g
+```
+
+* `supabase init`
+
+You may want to set the Postgres port to 6432 if you have another instance running on the default port.
+
+```
+# Note this and add to env
+# Supabase URL: http://localhost:7000
+# Supabase Key (anon, public): Note this and add to env
+# Supabase Key (service_role, private): Note this and add to env
+# Database URL: postgres://postgres:postgres@localhost:6432/postgres
+# Email testing interface URL: http://localhost:9000
+```
+
+* `supabase start`
+* `supabase stop`
+
+
 
 #### Ngrok Tunnelling
 

@@ -13,6 +13,8 @@
     ]
   },
   "dependencies": {
+    "@headlessui/react": "^1.2.0",
+    "@heroicons/react": "^1.0.1",
     "@redwoodjs/forms": "^0.32.3-canary.55",
     "@redwoodjs/router": "^0.32.3-canary.55",
     "@redwoodjs/web": "^0.32.3-canary.55",

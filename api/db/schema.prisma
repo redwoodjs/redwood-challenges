@@ -35,10 +35,11 @@ model Entry {
   pullRequestHtmlUrl  String
   username            String
   user                Json
-  content             Json
+  raw                 Json
   pullRequestFiles    Json?
   fileUrls            String[]
   fileUrl             String?
+  content             String?
   votes               Vote[]
 }
 

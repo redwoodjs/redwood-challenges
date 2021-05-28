@@ -14,10 +14,11 @@ export const schema = gql`
     pullRequestHtmlUrl: String!
     username: String!
     user: JSON!
-    content: JSON!
+    raw: JSON!
     pullRequestFiles: JSON
     fileUrls: [String]!
     fileUrl: String
+    content: String
     votes: [Vote]!
   }
 
@@ -37,10 +38,11 @@ export const schema = gql`
     pullRequestHtmlUrl: String!
     username: String!
     user: JSON!
-    content: JSON!
+    raw: JSON!
     pullRequestFiles: JSON
     fileUrls: [String]!
     fileUrl: String
+    content: String
   }
 
   input UpdateEntryInput {
@@ -54,10 +56,11 @@ export const schema = gql`
     pullRequestHtmlUrl: String
     username: String
     user: JSON
-    content: JSON
+    raw: JSON
     pullRequestFiles: JSON
     fileUrls: [String]!
     fileUrl: String
+    content: String
   }
 
   type Mutation {

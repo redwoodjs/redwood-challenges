@@ -12,7 +12,7 @@ export const standard = defineScenario({
       pullRequestHtmlUrl: 'https://github.com/Codertocat/Hello-World/pull/2',
       pullRequestFilesUrl:
         'https://github.com/Codertocat/Hello-World/pull/2/files',
-      content: { foo: 'bar' },
+      raw: { foo: 'bar' },
       user: { name: 'GH User 1', type: 'User' },
       username: 'GH User 1',
       challenge: {
@@ -34,7 +34,7 @@ export const standard = defineScenario({
       pullRequestHtmlUrl: 'https://github.com/Codertocat/Hello-World/pull/3',
       pullRequestFilesUrl:
         'https://github.com/Codertocat/Hello-World/pull/3/files',
-      content: { foo: 'bar' },
+      raw: { foo: 'bar' },
       user: { name: 'GH User 2', type: 'User' },
       username: 'GH User 2',
       challenge: {

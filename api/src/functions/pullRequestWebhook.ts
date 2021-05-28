@@ -89,14 +89,26 @@ const parsePullRequestFiles = async (pullRequest) => {
   })
   const pullRequestFiles = JSON.parse(response.body)
 
+  console.log(pullRequestFiles)
+
   const fileUrls =
     pullRequestFiles
       ?.map((info) =>
-        info.filename.endsWith('.html') ? info.raw_url : undefined
+        info.filename.endsWith('.html') ? info.contents_url : undefined
       )
       .filter((filename) => filename !== undefined) || []
 
-  return { pullRequestFiles, fileUrls, fileUrl: fileUrls[0] }
+  console.log(fileUrls)
+
+  const contentUrl = fileUrls[0]
+  const contentResponse = await got(contentUrl, {
+    headers: { Authorization: `token ${process.env.GITHUB_API_TOKEN}` },
+  })
+
+  const contentInfo = JSON.parse(contentResponse.body)
+  const content = contentInfo.content
+
+  return { pullRequestFiles, fileUrls, fileUrl: contentUrl, content }
 }
 
 /**
@@ -140,11 +152,12 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
 
     const pullRequest = parsePullRequest(event)
 
-    const { pullRequestFiles, fileUrls, fileUrl } = await parsePullRequestFiles(
-      pullRequest
-    )
+    const { pullRequestFiles, fileUrls, fileUrl, contentUrl, content } =
+      await parsePullRequestFiles(pullRequest)
 
     webhookLogger.debug({ fileUrls: fileUrls }, 'List of html fileUrls in PR')
+
+    webhookLogger.debug(content, 'The base64 encoded content')
 
     // Safely use the validated webhook payload
     const entry = await upsertEntry({
@@ -157,10 +170,11 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
         pullRequestHtmlUrl: pullRequest.htmlUrl,
         pullRequestFilesUrl: pullRequest.filesUrl,
         challenge: { connect: { slug: pullRequest.challenge } },
-        content: pullRequest.content,
+        raw: pullRequest.raw,
         pullRequestFiles,
         fileUrls,
         fileUrl,
+        content,
         user: pullRequest.user,
         username: pullRequest.username,
       },
