@@ -36,7 +36,7 @@ describe('votes', () => {
             slug: 'scenario.entry.two.challengeId',
           },
         },
-        content: { foo: 'bar' },
+        raw: { foo: 'bar' },
       },
     })
 

@@ -160,6 +160,7 @@ export type Query = {
   challenge?: Maybe<Challenge>;
   entries: Array<Entry>;
   entry?: Maybe<Entry>;
+  decodedEntryContent?: Maybe<Scalars['String']>;
   votes: Array<Vote>;
   vote?: Maybe<Vote>;
 };
@@ -171,6 +172,11 @@ export type QueryChallengeArgs = {
 
 
 export type QueryEntryArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryDecodedEntryContentArgs = {
   id: Scalars['String'];
 };
 

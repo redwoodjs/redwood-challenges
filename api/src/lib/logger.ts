@@ -16,7 +16,7 @@ import { createLogger } from '@redwoodjs/api/logger'
  */
 export const logger = createLogger({
   // If want to override in test, can force logging levels
-  // options: { level: 'debug', prettyPrint: true },
+  options: { level: 'warn', prettyPrint: true },
 })
 
 console.log = logger.info.bind(logger)

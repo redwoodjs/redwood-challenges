@@ -82,33 +82,47 @@ const parsePullRequest = (event: APIGatewayEvent) => {
  * raw content is stored with the Entry.
  **/
 const parsePullRequestFiles = async (pullRequest) => {
-  // Handle Response code 403 (rate limit exceeded) gracefully
-  // by using a Personal Access OAuth token
-  const response = await got(pullRequest.filesUrl, {
-    headers: { Authorization: `token ${process.env.GITHUB_API_TOKEN}` },
-  })
-  const pullRequestFiles = JSON.parse(response.body)
-
-  console.log(pullRequestFiles)
-
-  const fileUrls =
-    pullRequestFiles
-      ?.map((info) =>
-        info.filename.endsWith('.html') ? info.contents_url : undefined
-      )
-      .filter((filename) => filename !== undefined) || []
-
-  console.log(fileUrls)
-
-  const contentUrl = fileUrls[0]
-  const contentResponse = await got(contentUrl, {
-    headers: { Authorization: `token ${process.env.GITHUB_API_TOKEN}` },
+  const childLogger = logger.child({
+    pullRequestIid: pullRequest.id,
+    nodeId: pullRequest.node_id,
+    title: pullRequest.title,
   })
 
-  const contentInfo = JSON.parse(contentResponse.body)
-  const content = contentInfo.content
+  childLogger.debug(pullRequest.filesUrl, 'filesUrl')
 
-  return { pullRequestFiles, fileUrls, fileUrl: contentUrl, content }
+  try {
+    if (!pullRequest.filesUrl) throw Error('Missing pullRequest filesUrl')
+
+    // Handle Response code 403 (rate limit exceeded) gracefully
+    // by using a Personal Access OAuth token
+    const response = await got(pullRequest.filesUrl, {
+      headers: { Authorization: `token ${process.env.GITHUB_API_TOKEN}` },
+    })
+    const pullRequestFiles = JSON.parse(response.body)
+
+    const fileUrls =
+      pullRequestFiles
+        ?.map((info) =>
+          info.filename.endsWith('.html') ? info.contents_url : undefined
+        )
+        .filter((filename) => filename !== undefined) || []
+
+    const contentUrl = fileUrls[0]
+
+    if (!contentUrl) throw Error('Missing pullRequest contentUrl')
+
+    const contentResponse = await got(contentUrl, {
+      headers: { Authorization: `token ${process.env.GITHUB_API_TOKEN}` },
+    })
+
+    const contentInfo = JSON.parse(contentResponse.body)
+    const content = contentInfo.content
+
+    return { pullRequestFiles, fileUrls, fileUrl: contentUrl, content }
+  } catch (error) {
+    childLogger.error(error, error.message)
+    throw error
+  }
 }
 
 /**
@@ -152,7 +166,7 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
 
     const pullRequest = parsePullRequest(event)
 
-    const { pullRequestFiles, fileUrls, fileUrl, contentUrl, content } =
+    const { pullRequestFiles, fileUrls, fileUrl, content } =
       await parsePullRequestFiles(pullRequest)
 
     webhookLogger.debug({ fileUrls: fileUrls }, 'List of html fileUrls in PR')

@@ -1,15 +1,9 @@
 import type { APIGatewayEvent, Context } from 'aws-lambda'
 import { logger } from 'src/lib/logger'
-import { entry } from 'src/services/entries/entries'
+import { decodedEntryContent } from 'src/services/entries/entries'
+
 /**
- * The handler function is your code that processes http request events.
- * You can use return and throw to send a response or error, respectively.
- *
- * Important: When deployed, a custom serverless function is an open API endpoint and
- * is your responsibility to secure appropriately.
- *
- * @see {@link https://redwoodjs.com/docs/serverless-functions#security-considerations|Serverless Function Considerations}
- * in the RedwoodJS documentation for more information.
+ * Return as html the decoded bse64 content for an entry
  *
  * @typedef { import('aws-lambda').APIGatewayEvent } APIGatewayEvent
  * @typedef { import('aws-lambda').Context } Context
@@ -20,10 +14,9 @@ import { entry } from 'src/services/entries/entries'
 export const handler = async (event: APIGatewayEvent, _context: Context) => {
   logger.info('Invoked entryHtml function')
 
-  const htmlEntry = await entry({ id: event.queryStringParameters.id })
-
-  const buffer = Buffer.from(htmlEntry.content, 'base64')
-  const content = buffer.toString('utf-8')
+  const content = await decodedEntryContent({
+    id: event.queryStringParameters.id,
+  })
 
   return {
     statusCode: 200,

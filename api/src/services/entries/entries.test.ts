@@ -3,6 +3,7 @@ import { parseISO } from 'date-fns'
 import {
   entries,
   entry,
+  decodedEntryContent,
   createEntry,
   updateEntry,
   upsertEntry,
@@ -20,6 +21,23 @@ describe('entries', () => {
     const result = await entry({ id: scenario.entry.one.id })
 
     expect(result).toEqual(scenario.entry.one)
+  })
+
+  scenario('returns a single entry content', async (scenario) => {
+    const result = await entry({ id: scenario.entry.one.id })
+
+    expect(result.content).toEqual(scenario.entry.one.content)
+  })
+
+  scenario('returns and decodes the single entry content', async (scenario) => {
+    const result = await decodedEntryContent({ id: scenario.entry.one.id })
+
+    expect(result).toEqual(`<html>
+    <body>
+        <h1>Welcome to RedwoodJS</h1>
+        <p>This is a <strong>page</strong></p>
+    </body>
+</html>`)
   })
 
   scenario('creates a entry', async (scenario) => {

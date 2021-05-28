@@ -18,7 +18,7 @@ export const standard = defineScenario({
             'https://github.com/Codertocat/Hello-World/pull/2/files',
           user: { name: 'GH User 1', type: 'User' },
           username: 'GH User 1',
-          content: { foo: 'bar' },
+          raw: { foo: 'bar' },
           challenge: {
             create: {
               updatedAt: parseISO('2021-05-18T15:52:11Z'),
@@ -46,7 +46,7 @@ export const standard = defineScenario({
             'https://github.com/Codertocat/Hello-World/pull/3/files',
           user: { name: 'GH User 2', type: 'User' },
           username: 'GH User 2',
-          content: { foo: 'bar' },
+          raw: { foo: 'bar' },
           challenge: {
             create: {
               updatedAt: parseISO('2021-05-18T15:52:11Z'),

@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 import { ResolverArgs } from '@redwoodjs/api/dist/types'
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 import { requireAuth } from 'src/lib/auth'
 import { BeforeResolverSpecType } from '@redwoodjs/api'
 
@@ -17,6 +18,23 @@ export const entry = ({ id }: Prisma.EntryWhereUniqueInput) => {
   return db.entry.findUnique({
     where: { id },
   })
+}
+
+export const decodedEntryContent = async ({
+  id,
+}: Prisma.EntryWhereUniqueInput) => {
+  try {
+    const encoded = await db.entry.findUnique({
+      where: { id },
+      select: { content: true },
+    })
+
+    const buffer = Buffer.from(encoded.content, 'base64')
+    return buffer.toString('utf-8')
+  } catch (error) {
+    logger.warn({ entryId: id }, 'Unable to decode content for entry')
+    return ''
+  }
 }
 
 interface CreateEntryArgs {

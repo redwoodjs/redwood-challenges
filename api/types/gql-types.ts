@@ -162,6 +162,7 @@ export type Query = {
   challenge?: Maybe<Challenge>;
   entries: Array<Entry>;
   entry?: Maybe<Entry>;
+  decodedEntryContent?: Maybe<Scalars['String']>;
   votes: Array<Vote>;
   vote?: Maybe<Vote>;
 };
@@ -173,6 +174,11 @@ export type QueryChallengeArgs = {
 
 
 export type QueryEntryArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryDecodedEntryContentArgs = {
   id: Scalars['String'];
 };
 
@@ -421,6 +427,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   challenge?: Resolver<Maybe<ResolversTypes['Challenge']>, ParentType, ContextType, RequireFields<QueryChallengeArgs, 'id'>>;
   entries?: Resolver<Array<ResolversTypes['Entry']>, ParentType, ContextType>;
   entry?: Resolver<Maybe<ResolversTypes['Entry']>, ParentType, ContextType, RequireFields<QueryEntryArgs, 'id'>>;
+  decodedEntryContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryDecodedEntryContentArgs, 'id'>>;
   votes?: Resolver<Array<ResolversTypes['Vote']>, ParentType, ContextType>;
   vote?: Resolver<Maybe<ResolversTypes['Vote']>, ParentType, ContextType, RequireFields<QueryVoteArgs, 'id'>>;
 };

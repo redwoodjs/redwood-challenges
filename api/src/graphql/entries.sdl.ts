@@ -25,6 +25,7 @@ export const schema = gql`
   type Query {
     entries: [Entry!]!
     entry(id: String!): Entry
+    decodedEntryContent(id: String!): String
   }
 
   input CreateEntryInput {

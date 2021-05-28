@@ -8,7 +8,7 @@ import {
   buildEvent,
   context,
   challenges,
-  validMergedPullRequest,
+  realWorldMergedPullRequest,
 } from './__fixtures__'
 
 const setup = async () => {
@@ -30,7 +30,7 @@ const mockEvent = ({ payload, invalidSecret = false }) => {
   })
 }
 
-const payload = validMergedPullRequest
+const payload = realWorldMergedPullRequest
 
 describe('pullRequestWebhook', () => {
   describe('when given a valid payload and secret', () => {
@@ -41,17 +41,7 @@ describe('pullRequestWebhook', () => {
 
       const response = await handler(event as APIGatewayEvent, context)
 
-      expect(response).toEqual({
-        body: JSON.stringify({
-          data: {
-            entry: {
-              title: payload.pull_request.title,
-              description: payload.pull_request.body,
-            },
-          },
-        }),
-        statusCode: 201,
-      })
+      expect(response.statusCode).toEqual(201)
     })
 
     it('creates an entry', async () => {
