@@ -6,5 +6,9 @@ process.env.DATABASE_URL = process.env.TEST_DATABASE_URL
 
 const config = getConfig({ type: 'jest', target: 'node' })
 config.displayName.name = 'api'
-config.testPathIgnorePatterns = ['/node_modules/', '__fixtures__']
+config.testPathIgnorePatterns = [
+  '/node_modules/',
+  '__fixtures__',
+  '.scenarios.',
+]
 module.exports = config
