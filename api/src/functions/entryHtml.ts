@@ -13,16 +13,21 @@ import { decodedEntryContent } from 'src/services/entries/entries'
  */
 export const handler = async (event: APIGatewayEvent, _context: Context) => {
   logger.info('Invoked entryHtml function')
+  try {
+    const content = await decodedEntryContent({
+      id: event.queryStringParameters.id,
+    })
 
-  const content = await decodedEntryContent({
-    id: event.queryStringParameters.id,
-  })
-
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'text/html',
-    },
-    body: content,
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'text/html',
+      },
+      body: content,
+    }
+  } catch (error) {
+    return {
+      statusCode: 404,
+    }
   }
 }

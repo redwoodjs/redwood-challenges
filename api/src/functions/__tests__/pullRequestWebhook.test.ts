@@ -1,19 +1,18 @@
 import type { APIGatewayEvent } from 'aws-lambda'
 
+import nock from 'nock'
+
 import { signPayload } from '@redwoodjs/api/webhooks'
 import { handler } from '../pullRequestWebhook'
 import { db } from 'src/lib/db'
+import { logger } from 'src/lib/logger'
 
 import {
   buildEvent,
   context,
-  challenges,
   realWorldMergedPullRequest,
-} from './__fixtures__'
-
-const setup = async () => {
-  await db.challenge.createMany({ data: challenges })
-}
+  splashDemoThursday,
+} from './__fixtures__/buildEvent'
 
 const mockEvent = ({ payload, invalidSecret = false }) => {
   const signature = signPayload('sha256Verifier', {
@@ -32,33 +31,39 @@ const mockEvent = ({ payload, invalidSecret = false }) => {
 
 const payload = realWorldMergedPullRequest
 
-describe('pullRequestWebhook', () => {
-  describe('when given a valid payload and secret', () => {
-    it('verifies the event payload', async () => {
-      await setup()
+describe('valid scenario pullRequestWebhook', () => {
+  beforeAll(() => {
+    nock('https://github.com')
+      .get('/dthyresson/redwood-webhook-test/pull/4/files')
+      .reply(200, splashDemoThursday)
+  })
 
-      const event = mockEvent({ payload })
+  scenario('verifies the event payload', async () => {
+    logger.debug(
+      { id: realWorldMergedPullRequest.pull_request.id },
+      'realWorldMergedPullRequest'
+    )
 
-      const response = await handler(event as APIGatewayEvent, context)
+    const event = mockEvent({ payload })
 
-      expect(response.statusCode).toEqual(201)
-    })
+    const response = await handler(event as APIGatewayEvent, context)
 
-    it('creates an entry', async () => {
-      await setup()
+    expect(response.statusCode).toEqual(201)
+  })
 
-      const event = mockEvent({ payload })
+  scenario('creates an entry', async () => {
+    const event = mockEvent({ payload })
 
-      const _response = await handler(event as APIGatewayEvent, context)
+    const _response = await handler(event as APIGatewayEvent, context)
 
-      const entryCount = await db.entry.count()
+    const entryCount = await db.entry.count()
 
-      expect(entryCount).toEqual(1)
-    })
+    expect(entryCount).toEqual(1)
+  })
 
-    it('creates an entry associated to the challenge set in the label', async () => {
-      await setup()
-
+  scenario(
+    'creates an entry associated to the challenge set in the label',
+    async () => {
       const event = mockEvent({ payload })
 
       const _response = await handler(event as APIGatewayEvent, context)
@@ -66,42 +71,42 @@ describe('pullRequestWebhook', () => {
       const challenge = await db.entry.findFirst({ take: 1 }).challenge()
 
       expect(challenge.slug).toEqual('splash-page')
-    })
+    }
+  )
 
-    it('creates an entry with the payload content', async () => {
-      await setup()
+  scenario('creates an entry with the payload content', async () => {
+    const event = mockEvent({ payload })
 
-      const event = mockEvent({ payload })
+    const _response = await handler(event as APIGatewayEvent, context)
 
-      const _response = await handler(event as APIGatewayEvent, context)
+    const entry = await db.entry.findFirst({ take: 1 })
 
-      const entry = await db.entry.findFirst({ take: 1 })
-
-      expect(entry.content).toEqual(payload.pull_request)
-    })
+    expect(entry.content).toEqual(splashDemoThursday.content)
   })
+})
 
-  describe('when there are no challenges', () => {
-    it('cannot save the entry and returns a server error', async () => {
+describe('when there are no challenges', () => {
+  scenario(
+    'mismatchedChallenges',
+    'cannot save the entry and returns a server error',
+    async () => {
       const event = mockEvent({ payload })
 
       const response = await handler(event as APIGatewayEvent, context)
 
       expect(response).toHaveProperty('statusCode', 500)
-    })
-  })
+    }
+  )
+})
 
-  describe('when given an invalid secret', () => {
-    it('is unauthorized', async () => {
-      await setup()
+describe('when given an invalid secret', () => {
+  scenario('is unauthorized', async () => {
+    const event = mockEvent({ payload, invalidSecret: true })
 
-      const event = mockEvent({ payload, invalidSecret: true })
+    const response = await handler(event as APIGatewayEvent, context)
 
-      const response = await handler(event as APIGatewayEvent, context)
-
-      expect(response).toEqual({
-        statusCode: 401,
-      })
+    expect(response).toEqual({
+      statusCode: 401,
     })
   })
 })

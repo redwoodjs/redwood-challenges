@@ -62,6 +62,7 @@ const parsePullRequest = (event: APIGatewayEvent) => {
   isPullRequest(event)
 
   const payload = JSON.parse(event.body) || {}
+
   const pullRequest = parse({ payload })
 
   if (!pullRequest.isValid) {
@@ -115,7 +116,10 @@ const parsePullRequestFiles = async (pullRequest) => {
       headers: { Authorization: `token ${process.env.GITHUB_API_TOKEN}` },
     })
 
+    // console.debug({ response: contentResponse }, '>>> got contentResponse')
+
     const contentInfo = JSON.parse(contentResponse.body)
+
     const content = contentInfo.content
 
     return { pullRequestFiles, fileUrls, fileUrl: contentUrl, content }
@@ -193,6 +197,10 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
         username: pullRequest.username,
       },
     })
+
+    if (entry === undefined) {
+      throw Error('Unable to create Entry from Pull Request')
+    }
 
     const data = {
       entry: { title: entry.title, description: entry.description },

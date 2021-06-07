@@ -33,7 +33,7 @@ export const decodedEntryContent = async ({
     return buffer.toString('utf-8')
   } catch (error) {
     logger.warn({ entryId: id }, 'Unable to decode content for entry')
-    return ''
+    throw error
   }
 }
 
