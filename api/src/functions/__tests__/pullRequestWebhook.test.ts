@@ -1,4 +1,4 @@
-import type { APIGatewayEvent } from 'aws-lambda'
+import type { APIGatewayEvent, APIGatewayProxyEventHeaders } from 'aws-lambda'
 
 import nock from 'nock'
 
@@ -7,14 +7,15 @@ import { handler } from '../pullRequestWebhook'
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
 
-import {
-  buildEvent,
-  context,
-  realWorldMergedPullRequest,
-  splashDemoThursday,
-} from './__fixtures__/buildEvent'
+import { buildEvent } from './__fixtures__/buildEvent'
 
-const mockEvent = ({ payload, invalidSecret = false }) => {
+import { buildContext } from './__fixtures__/buildContext'
+
+import { validMergedPullRequest } from './__fixtures__/validMergedPullRequest'
+
+import { encodedGitHubFileContent } from './__fixtures__/encodedGitHubFileContent'
+
+const mockPullRequestWebhook = ({ payload, invalidSecret = false }) => {
   const signature = signPayload('sha256Verifier', {
     payload: JSON.stringify(payload),
     secret: invalidSecret
@@ -22,29 +23,37 @@ const mockEvent = ({ payload, invalidSecret = false }) => {
       : process.env.GITHUB_PULL_REQUEST_WEBHOOK_SECRET,
   })
 
-  return buildEvent({
+  const headers = {} as APIGatewayProxyEventHeaders
+  headers['x-github-event'] = 'pull_request'
+
+  const event = buildEvent({
     payload: JSON.stringify(payload),
     signature,
     signatureHeader: process.env.GITHUB_WEBHOOK_SIGNATURE_HEADER,
+    headers,
   })
-}
 
-const payload = realWorldMergedPullRequest
+  const context = buildContext()
+
+  return { event, context }
+}
 
 describe('valid scenario pullRequestWebhook', () => {
   beforeAll(() => {
     nock('https://github.com')
       .get('/dthyresson/redwood-webhook-test/pull/4/files')
-      .reply(200, splashDemoThursday)
+      .reply(200, encodedGitHubFileContent)
   })
 
   scenario('verifies the event payload', async () => {
     logger.debug(
-      { id: realWorldMergedPullRequest.pull_request.id },
+      { id: validMergedPullRequest.pull_request.id },
       'realWorldMergedPullRequest'
     )
 
-    const event = mockEvent({ payload })
+    const { event, context } = mockPullRequestWebhook({
+      payload: validMergedPullRequest,
+    })
 
     const response = await handler(event as APIGatewayEvent, context)
 
@@ -52,7 +61,9 @@ describe('valid scenario pullRequestWebhook', () => {
   })
 
   scenario('creates an entry', async () => {
-    const event = mockEvent({ payload })
+    const { event, context } = mockPullRequestWebhook({
+      payload: validMergedPullRequest,
+    })
 
     const _response = await handler(event as APIGatewayEvent, context)
 
@@ -64,7 +75,9 @@ describe('valid scenario pullRequestWebhook', () => {
   scenario(
     'creates an entry associated to the challenge set in the label',
     async () => {
-      const event = mockEvent({ payload })
+      const { event, context } = mockPullRequestWebhook({
+        payload: validMergedPullRequest,
+      })
 
       const _response = await handler(event as APIGatewayEvent, context)
 
@@ -75,13 +88,15 @@ describe('valid scenario pullRequestWebhook', () => {
   )
 
   scenario('creates an entry with the payload content', async () => {
-    const event = mockEvent({ payload })
+    const { event, context } = mockPullRequestWebhook({
+      payload: validMergedPullRequest,
+    })
 
     const _response = await handler(event as APIGatewayEvent, context)
 
     const entry = await db.entry.findFirst({ take: 1 })
 
-    expect(entry.content).toEqual(splashDemoThursday.content)
+    expect(entry.content).toEqual(encodedGitHubFileContent.content)
   })
 })
 
@@ -90,7 +105,9 @@ describe('when there are no challenges', () => {
     'mismatchedChallenges',
     'cannot save the entry and returns a server error',
     async () => {
-      const event = mockEvent({ payload })
+      const { event, context } = mockPullRequestWebhook({
+        payload: validMergedPullRequest,
+      })
 
       const response = await handler(event as APIGatewayEvent, context)
 
@@ -101,7 +118,10 @@ describe('when there are no challenges', () => {
 
 describe('when given an invalid secret', () => {
   scenario('is unauthorized', async () => {
-    const event = mockEvent({ payload, invalidSecret: true })
+    const { event, context } = mockPullRequestWebhook({
+      payload: validMergedPullRequest,
+      invalidSecret: true,
+    })
 
     const response = await handler(event as APIGatewayEvent, context)
 
