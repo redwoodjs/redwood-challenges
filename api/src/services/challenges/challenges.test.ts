@@ -20,7 +20,7 @@ describe('challenges', () => {
     expect(result).toEqual(scenario.challenge.one)
   })
 
-  scenario('creates a challenge', async (scenario) => {
+  scenario('creates a challenge', async () => {
     const result = await createChallenge({
       input: {
         updatedAt: parseISO('2021-05-18T15:51:59Z'),

@@ -15,7 +15,7 @@ describe('votes', () => {
     expect(result).toEqual(scenario.vote.one)
   })
 
-  scenario('creates a vote', async (scenario) => {
+  scenario('creates a vote', async () => {
     const entry = await createEntry({
       input: {
         updatedAt: parseISO('2021-05-18T15:52:03Z'),

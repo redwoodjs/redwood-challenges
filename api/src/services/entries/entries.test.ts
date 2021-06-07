@@ -40,7 +40,7 @@ describe('entries', () => {
 </html>`)
   })
 
-  scenario('creates a entry', async (scenario) => {
+  scenario('creates a entry', async () => {
     const result = await createEntry({
       input: {
         updatedAt: parseISO('2021-05-18T15:52:03Z'),
@@ -79,7 +79,7 @@ describe('entries', () => {
     expect(result.updatedAt).toEqual(parseISO('2021-05-19T15:52:03Z'))
   })
 
-  scenario('upserts a entry', async (scenario) => {
+  scenario('upserts a entry', async () => {
     const data = {
       updatedAt: parseISO('2021-05-18T15:52:03Z'),
       approvedAt: parseISO('2021-05-18T15:52:11Z'),
