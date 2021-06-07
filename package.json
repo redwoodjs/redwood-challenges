@@ -3,8 +3,7 @@
   "workspaces": {
     "packages": [
       "api",
-      "web",
-      "redwood/*"
+      "web"
     ]
   },
   "devDependencies": {
@@ -18,21 +17,5 @@
     "node": "14.x",
     "yarn": "1.x"
   },
-  "resolutions": {
-    "@redwoodjs/api": "0.33.0",
-    "@redwoodjs/api-server": "0.33.0",
-    "@redwoodjs/auth": "0.33.0",
-    "@redwoodjs/cli": "0.33.0",
-    "@redwoodjs/core": "0.33.0",
-    "@redwoodjs/dev-server": "0.33.0",
-    "@redwoodjs/eslint-config": "0.33.0",
-    "@redwoodjs/eslint-plugin-redwood": "0.33.0",
-    "@redwoodjs/forms": "0.33.0",
-    "@redwoodjs/internal": "0.33.0",
-    "@redwoodjs/prerender": "0.33.0",
-    "@redwoodjs/router": "0.33.0",
-    "@redwoodjs/structure": "0.33.0",
-    "@redwoodjs/testing": "0.33.0",
-    "@redwoodjs/web": "0.33.0"
-  }
+  "resolutions": {}
 }
