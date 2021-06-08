@@ -6,7 +6,7 @@ describe('EntryHTML function', () => {
   scenario('Returns decoded content from an Entry', async () => {
     const entryHtmlEvent = buildEvent({
       queryStringParameters: {
-        id: 'find-my-by-id-one',
+        id: 'find-me-by-id-one',
       },
     })
 
@@ -18,7 +18,7 @@ describe('EntryHTML function', () => {
   scenario('Returns 404 for an entry that cannot be found', async () => {
     const entryHtmlEvent = buildEvent({
       queryStringParameters: {
-        id: 'baddy-mcbadface',
+        id: 'entry-does-not-exist',
       },
     })
 

@@ -4,7 +4,7 @@ import type { Prisma } from '@prisma/client'
 export const standard = defineScenario<Prisma.EntryCreateArgs>({
   entry: {
     one: {
-      id: 'find-my-by-id-one',
+      id: 'find-me-by-id-one',
       updatedAt: parseISO('2021-05-18T15:52:03Z'),
       approvedAt: parseISO('2021-05-18T15:52:11Z'),
       uid: 'akdfblrbqldlqwudbyubqeb',
@@ -51,6 +51,7 @@ export const standard = defineScenario<Prisma.EntryCreateArgs>({
       },
     },
     two: {
+      id: 'find-me-by-id-two',
       updatedAt: parseISO('2021-05-18T15:52:03Z'),
       approvedAt: parseISO('2021-05-18T15:52:11Z'),
       uid: '23nwnfiusndfi23urlwf',
