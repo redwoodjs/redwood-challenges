@@ -1,6 +1,5 @@
 import { handler } from '../entryHtml'
-
-import { buildEvent } from './__fixtures__/buildEvent'
+import { buildEvent } from '../__fixtures__/buildEvent'
 
 describe('EntryHTML function', () => {
   scenario('Returns decoded content from an Entry', async () => {

@@ -4,16 +4,14 @@ import nock from 'nock'
 
 import { signPayload } from '@redwoodjs/api/webhooks'
 import { handler } from '../pullRequestWebhook'
-import { db } from 'src/lib/db'
-import { logger } from 'src/lib/logger'
 
-import { buildEvent } from './__fixtures__/buildEvent'
+import { db } from '../../lib/db'
+import { logger } from '../../lib/logger'
 
-import { buildContext } from './__fixtures__/buildContext'
-
-import { validMergedPullRequest } from './__fixtures__/validMergedPullRequest'
-
-import { encodedGitHubFileContent } from './__fixtures__/encodedGitHubFileContent'
+import { buildEvent } from '../__fixtures__/buildEvent'
+import { buildContext } from '../__fixtures__/buildContext'
+import { validMergedPullRequest } from '../__fixtures__/validMergedPullRequest'
+import { encodedGitHubFileContent } from '../__fixtures__/encodedGitHubFileContent'
 
 const mockPullRequestWebhook = ({ payload, invalidSecret = false }) => {
   const signature = signPayload('sha256Verifier', {

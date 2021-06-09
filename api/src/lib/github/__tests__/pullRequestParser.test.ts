@@ -1,7 +1,7 @@
 import { parseISO } from 'date-fns'
-import { validPullRequest } from './__fixtures__'
+import { validPullRequest } from '../__fixtures__/validPullRequest'
 import { parse } from '../pullRequestParser'
-import { logger } from 'src/lib/logger'
+import { logger } from '../../../lib/logger'
 
 describe('webhookHelper', () => {
   describe('when given a valid GitHub webhook payload', () => {
