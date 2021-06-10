@@ -8,8 +8,11 @@
 [web]
   port = 8910
   apiProxyPath = "/.netlify/functions"
+  includeEnvironmentVariables = ['SITE_URL']
 [api]
   port = 8911
   schemaPath = "./api/db/schema.prisma"
 [browser]
   open = false
+[experimental]
+  esbuild = true

@@ -28,9 +28,11 @@ export const Success = ({ entries }: CellSuccessProps<EntriesQuery>) => {
       {entries.map((entry) => {
         return (
           <div key={entry.id}>
+            <p>{entry.id}</p>
+
             <iframe
               title={entry.title}
-              src={`http://localhost:8910/.redwood/functions/entryHtml?id=${entry.id}`}
+              src={`${process.env.SITE_URL}/entryHtml?id=${entry.id}`}
               height="100%"
               width="100%"
             ></iframe>

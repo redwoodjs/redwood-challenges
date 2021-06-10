@@ -1,4 +1,4 @@
-import { render, screen } from '@redwoodjs/testing'
+import { render } from '@redwoodjs/testing'
 import { Loading, Empty, Failure, Success } from './ChallengesCell'
 import { standard } from './ChallengesCell.mock'
 
@@ -20,12 +20,6 @@ describe('ChallengesCell', () => {
       render(<Failure error={new Error('Oh no')} />)
     }).not.toThrow()
   })
-
-  // When you're ready to test the actual output of your component render
-  // you could test that, for example, certain text is present:
-  //
-  // 1. import { screen } from '@redwoodjs/testing'
-  // 2. Add test: expect(screen.getByText('Hello, world')).toBeInTheDocument()
 
   it('renders Success successfully', async () => {
     expect(() => {
