@@ -16,3 +16,5 @@
   open = false
 [experimental]
   esbuild = true
+[generate]
+  nestScaffoldByModel= false
