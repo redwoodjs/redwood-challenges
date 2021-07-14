@@ -1,4 +1,4 @@
-import { createLogger, isTest } from '@redwoodjs/api/logger'
+import { createLogger, isTest } from '@redwoodjs/graphql-server/logger'
 
 /**
  * Creates a logger with RedwoodLoggerOptions

@@ -16,5 +16,7 @@
   open = false
 [experimental]
   esbuild = true
+  useEnvelop = true
 [generate]
-  nestScaffoldByModel= false
+  nestScaffoldByModel = false
+
