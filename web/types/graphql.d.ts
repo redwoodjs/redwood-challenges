@@ -230,21 +230,9 @@ export type Vote = {
 export type ChallengesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ChallengesQuery = (
-  { __typename?: 'Query' }
-  & { challenges: Array<(
-    { __typename?: 'Challenge' }
-    & Pick<Challenge, 'id' | 'name'>
-  )> }
-);
+export type ChallengesQuery = { __typename?: 'Query', challenges: Array<{ __typename?: 'Challenge', id: string, name: string }> };
 
 export type EntriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type EntriesQuery = (
-  { __typename?: 'Query' }
-  & { entries: Array<(
-    { __typename?: 'Entry' }
-    & Pick<Entry, 'id' | 'title' | 'description' | 'username' | 'content' | 'fileUrl'>
-  )> }
-);
+export type EntriesQuery = { __typename?: 'Query', entries: Array<{ __typename?: 'Entry', id: string, title: string, description: string, username: string, content?: Maybe<string>, fileUrl?: Maybe<string> }> };
